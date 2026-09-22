@@ -1,0 +1,27 @@
+labeled 11,496 (= 8,047 real + 3,449 external)  val 1,419
+loading weights from hplus_weights/model.safetensors
+gradient checkpointing ON
+backbone vit_huge_plus_patch16_dinov3.lvd1689m  mean (0.485, 0.456, 0.406)  std (0.229, 0.224, 0.225)  native (3, 256, 256)  params 840.5M  pool avg  prefix_tokens 5
+W0921 03:52:34.897000 17504 .venv\Lib\site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+4 param groups, 34 trunk depths, lr range 2.00e-05 .. 1.00e-03
+optimiser: bitsandbytes AdamW8bit
+EMA: offload=True every=4 effective decay 0.9960
+  epoch 1/16  loss 1.8768  val 0.9937  ema 0.9958  548s
+  epoch 2/16  loss 1.0841  val 0.9930  ema 0.9951  541s
+  epoch 3/16  loss 1.0124  val 0.9944  ema 0.9965  531s
+  epoch 4/16  loss 0.9788  val 0.9944  ema 0.9937  531s
+  epoch 5/16  loss 0.9598  val 0.9930  ema 0.9944  529s
+  epoch 6/16  loss 0.9126  val 0.9951  ema 0.9937  529s
+  epoch 7/16  loss 0.9114  val 0.9951  ema 0.9944  530s
+  epoch 8/16  loss 0.884  val 0.9944  ema 0.9944  529s
+  epoch 9/16  loss 0.8871  val 0.9937  ema 0.9944  529s
+  epoch 10/16  loss 0.8954  val 0.9958  ema 0.9951  529s
+  epoch 11/16  loss 0.8958  val 0.9951  ema 0.9951  530s
+  epoch 12/16  loss 0.9183  val 0.9951  ema 0.9951  529s
+  epoch 13/16  loss 0.8734  val 0.9958  ema 0.9951  529s
+  epoch 14/16  loss 0.8491  val 0.9951  ema 0.9951  528s
+  epoch 15/16  loss 0.8757  val 0.9951  ema 0.9951  529s
+  epoch 16/16  loss 0.8724  val 0.9951  ema 0.9958  529s
+best epoch 3/16  val 0.9965
+TTA val 0.9951 | clean-reserve 0.9521 | mean test conf 0.8580
+submission_dinov3vithp_base.csv written | bench/dinov3vithp_base_test_prob.npy saved

@@ -1,0 +1,27 @@
+pseudo set: 11,382 of 11,681 test images (97.4%) at threshold 0.7
+  mean teacher confidence on the kept rows 0.9028
+  per-class kept: min 179 (fishes) max 1186 (spiders)
+fit set 22,878 (= 8,047 real + 3,449 external + 11,382 pseudo @ weight 0.5)
+gradient checkpointing ON
+backbone eva02_large_patch14_448.mim_m38m_ft_in22k_in1k  mean (0.48145466, 0.4578275, 0.40821073)  std (0.26862954, 0.26130258, 0.27577711)  native (3, 448, 448)  params 304.1M  pool avg  prefix_tokens 1
+flat backbone_lr 2.0e-05, head_lr 1.0e-03 (layer decay deliberately OFF -- see module docstring)
+  epoch 1/16  loss 1.4029  val 0.9859  ema 0.9908  529s
+  epoch 2/16  loss 1.131  val 0.9824  ema 0.9951  526s
+  epoch 3/16  loss 1.1138  val 0.9817  ema 0.9887  540s
+  epoch 4/16  loss 1.0609  val 0.9796  ema 0.9894  583s
+  epoch 5/16  loss 1.0443  val 0.9824  ema 0.9894  589s
+  epoch 6/16  loss 1.0379  val 0.9873  ema 0.9887  584s
+  epoch 7/16  loss 0.9721  val 0.9866  ema 0.9908  519s
+  epoch 8/16  loss 0.9778  val 0.9789  ema 0.9887  518s
+  epoch 9/16  loss 0.9603  val 0.9908  ema 0.9915  520s
+  epoch 10/16  loss 0.9292  val 0.9915  ema 0.9922  522s
+  epoch 11/16  loss 0.9128  val 0.9894  ema 0.9922  519s
+  epoch 12/16  loss 0.9179  val 0.9894  ema 0.9922  525s
+  epoch 13/16  loss 0.8672  val 0.9908  ema 0.9908  534s
+  epoch 14/16  loss 0.8717  val 0.9908  ema 0.9908  527s
+  epoch 15/16  loss 0.8871  val 0.9915  ema 0.9915  525s
+  epoch 16/16  loss 0.8572  val 0.9915  ema 0.9915  518s
+best epoch 2/16  ema val 0.9951
+NOTE: best epoch 2 <= 2 but EMA only fell 0.38pt from peak to the final-3 mean (threshold 1.00pt), so the §4.5 collapse signal is NOT met -- clause one alone over-triggers. Advisory only.
+TTA val 0.9951 | clean-reserve 0.9288 | mean test conf 0.9013 | disagree vs A 1.91%
+submission_eva02lps1.csv written | bench/eva02lps1_test_prob.npy saved

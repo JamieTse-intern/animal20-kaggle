@@ -1,0 +1,23 @@
+labeled 11,496 (= 8,047 real + 3,449 external)  val 1,419
+gradient checkpointing ON
+backbone vit_large_patch16_dinov3.lvd1689m  mean (0.485, 0.456, 0.406)  std (0.229, 0.224, 0.225)  native (3, 256, 256)  params 303.1M  pool avg  prefix_tokens 5
+4 param groups, 26 trunk depths, lr range 2.00e-05 .. 1.00e-03
+  epoch 1/16  loss 1.8914  val 0.9887  ema 0.9908  323s
+  epoch 2/16  loss 1.1839  val 0.9908  ema 0.9937  300s
+  epoch 3/16  loss 1.0924  val 0.9873  ema 0.9922  301s
+  epoch 4/16  loss 1.0784  val 0.9894  ema 0.9930  300s
+  epoch 5/16  loss 1.0226  val 0.9880  ema 0.9915  300s
+  epoch 6/16  loss 1.0265  val 0.9866  ema 0.9908  300s
+  epoch 7/16  loss 0.9767  val 0.9915  ema 0.9930  300s
+  epoch 8/16  loss 0.9554  val 0.9901  ema 0.9908  300s
+  epoch 9/16  loss 0.975  val 0.9894  ema 0.9908  299s
+  epoch 10/16  loss 0.9348  val 0.9915  ema 0.9901  300s
+  epoch 11/16  loss 0.9791  val 0.9908  ema 0.9922  300s
+  epoch 12/16  loss 0.8912  val 0.9930  ema 0.9922  299s
+  epoch 13/16  loss 0.9259  val 0.9894  ema 0.9915  300s
+  epoch 14/16  loss 0.9145  val 0.9901  ema 0.9915  300s
+  epoch 15/16  loss 0.9184  val 0.9908  ema 0.9908  303s
+  epoch 16/16  loss 0.9077  val 0.9908  ema 0.9908  299s
+best epoch 2/16  val 0.9937
+TTA val 0.9930 | clean-reserve 0.9197 | mean test conf 0.8121
+submission_dinov3vitlnative_base.csv written | bench/dinov3vitlnative_base_test_prob.npy saved

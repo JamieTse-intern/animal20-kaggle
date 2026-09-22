@@ -1,0 +1,31 @@
+pseudo set: 11,350 of 11,681 test images (97.2%) at threshold 0.7
+  mean teacher confidence on the kept rows 0.9034
+  per-class kept: min 178 (fishes) max 1182 (spiders)
+fit set 22,846 (= 8,047 real + 3,449 external + 11,350 pseudo @ weight 0.5)
+loading weights from hplus_weights/model.safetensors
+gradient checkpointing ON
+backbone vit_huge_plus_patch16_dinov3.lvd1689m  mean (0.485, 0.456, 0.406)  std (0.229, 0.224, 0.225)  native (3, 256, 256)  params 840.5M  pool avg  prefix_tokens 5
+W0921 08:12:15.827000 35952 .venv\Lib\site-packages\torch\utils\flop_counter.py:29] triton not found; flop counting will not work for triton kernels
+optimiser: bitsandbytes AdamW8bit
+flat backbone_lr 2.0e-05, head_lr 1.0e-03 (layer decay deliberately OFF -- see module docstring)
+EMA: offload=True every=4 effective decay 0.9960
+  epoch 1/16  loss 1.6376  val 0.9944  ema 0.9958  1047s
+  epoch 2/16  loss 1.0102  val 0.9937  ema 0.9958  1022s
+  epoch 3/16  loss 0.9621  val 0.9937  ema 0.9951  1017s
+  epoch 4/16  loss 0.9213  val 0.9951  ema 0.9937  1016s
+  epoch 5/16  loss 0.9229  val 0.9951  ema 0.9944  1018s
+  epoch 6/16  loss 0.9224  val 0.9951  ema 0.9937  1017s
+  epoch 7/16  loss 0.8786  val 0.9937  ema 0.9951  1019s
+  epoch 8/16  loss 0.8922  val 0.9951  ema 0.9951  1021s
+  epoch 9/16  loss 0.8931  val 0.9937  ema 0.9951  1018s
+  epoch 10/16  loss 0.8758  val 0.9951  ema 0.9958  1017s
+  epoch 11/16  loss 0.8835  val 0.9951  ema 0.9958  1017s
+  epoch 12/16  loss 0.8698  val 0.9958  ema 0.9958  1017s
+  epoch 13/16  loss 0.8341  val 0.9944  ema 0.9958  1017s
+  epoch 14/16  loss 0.8446  val 0.9958  ema 0.9958  1019s
+  epoch 15/16  loss 0.8498  val 0.9958  ema 0.9958  1045s
+  epoch 16/16  loss 0.8399  val 0.9958  ema 0.9958  1017s
+best epoch 1/16  ema val 0.9958
+NOTE: best epoch 1 <= 2 but EMA only fell -0.00pt from peak to the final-3 mean (threshold 1.00pt), so the §4.5 collapse signal is NOT met -- clause one alone over-triggers. Advisory only.
+TTA val 0.9951 | clean-reserve 0.9275 | mean test conf 0.8097 | disagree vs A 2.32%
+submission_dinov3vithpps1.csv written | bench/dinov3vithpps1_test_prob.npy saved

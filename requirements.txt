@@ -1,0 +1,16 @@
+torch>=2.4
+torchvision
+timm==1.0.29
+numpy
+pandas
+pillow
+scikit-learn
+matplotlib
+
+# only for the 840M-parameter run on a 10 GB card (8-bit optimiser)
+bitsandbytes>=0.50
+
+# only for regenerating the report artefacts
+python-docx
+jupyter
+nbconvert

@@ -1,0 +1,34 @@
+# virtualenv / caches
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+
+# competition data - belongs to the unit that set the assignment, not redistributed
+Animals_Dataset.zip
+test_set.zip
+FIT5215_Dataset/
+test_set/
+
+# third-party datasets - each carries its own licence, fetch them yourself
+domainnet/
+imagenet_r/
+imagenet_r_ext/
+photo_holdout/
+
+# trained weights - 8.5 GB for the four final models alone
+*.pt
+*.pth
+*.safetensors
+
+# the large intermediate arrays; results/model_outputs/ carries what matters
+bench/
+*.npz
+
+# retracted work - see docs/03-integrity.md
+_RETRACTED_manual_test_labeling/
+
+# test-set-derived artefacts: these ARE the competition answer key.
+# Publishing them would let anyone reproduce the leaderboard score by uploading the file.
+# Kept locally, excluded from the public repository. See results/test_predictions/README.md
+results/test_predictions/

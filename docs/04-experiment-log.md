@@ -1,0 +1,438 @@
+# Experiment log
+
+Every scored submission, in order, with the prediction recorded **before** it was submitted
+where one exists. Retracted submissions are marked and excluded from every claim.
+
+- **109 training runs** with full configuration: [`../results/runs.csv`](../results/runs.csv)
+- **70 scored submissions**: [`../results/leaderboard.csv`](../results/leaderboard.csv)
+- **19 per-epoch training traces**: [`../results/training_logs/`](../results/training_logs/)
+- **36 probability arrays** (every model's raw output): [`../results/model_outputs/`](../results/model_outputs/)
+
+---
+
+
+## 09-07
+
+### `v1 baseline` — **0.74**
+
+no domain matching
+
+### `v2 JPEG domain match` — **0.859**
+
+degradation pipeline added
+
+
+## 09-08
+
+### `v4` — **0.895**
+
+### `v7 pseudo round2` — **0.922**
+
+*v7_tiny_noext*
+
+### `v7b CLIP-base + tiny` — **0.92796**
+
+### `v8 +ViT-CLIP +painting` — **0.94695**
+
+*v8_win_0947*
+
+
+## 09-09
+
+### `v8e +ImageNet-R` — **0.96232**
+
+*v8e_paint_inr*
+
+### `submission_D3_LgP.csv` — **0.96499**
+
+*v9_large+v10_distil*
+
+clean pre-correction lineage
+
+### `31 tier-A edits` — **0.96435**
+
+RETRACTED - worse; cross-category
+
+### `78 self-consistent edits` — **0.96574** **[RETRACTED]**
+
+RETRACTED
+
+### `submission_corr_B.csv` — **0.96638** **[RETRACTED]**
+
+RETRACTED - 47 same-group edits
+
+
+## 09-10
+
+### `submission_A3.csv` — **0.96734**
+
+*A_distil2*
+
+round-2 distil; teacher had baked-in corrections
+
+### `B_A3_cnv2.csv` — **0.97065**
+
+*B_cnv2*
+
++ConvNeXt-V2-base FCMAE
+
+
+## 09-11
+
+### `submission_H_only.csv` — **0.95869**
+
+*E_huge*
+
+ConvNeXt-V2-Huge alone - overfits
+
+### `submission_H_Lb_Lp1.csv` — **0.97267**
+
+*C_cnv2L+E_huge*
+
+mixed ensemble
+
+### `submission_CL_L_only.csv` — **0.97342**
+
+*C_cnv2L pseudo1*
+
+** BEST - single model **
+
+### `submission_2seed_corr.csv` — **0.97353** **[RETRACTED]**
+
+*C_cnv2L+seed4242*
+
+RETRACTED; seed-ens worse than single
+
+### `submission_corr_cnv2L.csv` — **0.97406** **[RETRACTED]**
+
+RETRACTED
+
+### `submission_corr_cnv2L_r3.csv` — **0.97417** **[RETRACTED]**
+
+RETRACTED
+
+### `submission_tta18_corr.csv` — **0.97417** **[RETRACTED]**
+
+RETRACTED; 18-view TTA tied 6-view
+
+
+## 09-12
+
+### `submission_trio_bal030.csv` — **0.97257**
+
+*trio_bal030 pseudo1*
+
+clean map+balanced+ratio.30; -0.085 = tie
+
+### `submission_datadiv_ens.csv` — _not submitted_
+
+*C_cnv2L + trio_bal030*
+
+BUILT, not submitted
+
+### `submission_res256_base.csv` — _not submitted_
+
+*res256 base ep8*
+
+BUILT, not submitted - resolution probe
+
+### `submission_res256.csv` — _not submitted_
+
+*res256 pseudo1*
+
+BUILT - DO NOT SUBMIT (collapsed)
+
+
+## 09-13
+
+### `submission_fixmatch.csv` — **0.96926**
+
+*fixmatch*
+
+FixMatch alone; <0.9700 -> line closed per plan 3.3
+
+### `submission_ens_FMAC112.csv` — **0.97459**
+
+*FM+A+C*
+
+FM weight 0.25; -0.107pt vs 0.97566
+
+### `submission_ens_FMAC212.csv` — **0.97267**
+
+*FM+A+C*
+
+FM weight 0.40; monotone in FM weight
+
+### `submission_ens_FMC12.csv` — **0.97225**
+
+*FM+C*
+
+no A; -0.341pt
+
+### `submission_dinov3flat_base.csv` — **0.96264**
+
+*dinov3 flat base*
+
+PASSED 4.2 gate (>=0.96150); ties D 0.96350 within 1/3 SE; 2.99% disagree vs A
+
+### `submission_dinov3ps1.csv` — **0.97171**
+
+*dinov3 pseudo1*
+
+teacher A(x)C 1:2; -0.17pt vs A, 2.10% disagree; MISSED plan bar 0.9720 by 0.12 SE; two-bar rule silent in the -0.14..-0.42 band
+
+### `submission_ens_ACD3temp.csv` — **0.97673**
+
+*blend (no GPU)*
+
+temp-matched equal-weight A+C+DINOv3ps1, arithmetic (reproduces ACtemp construction row-for-row); k=62 vs ACtemp, k=54 vs pick1; all 62 moved rows conf<0.7; 57/62 follow D3; clean-559 reserve 92.49 vs ACtemp 90.52 (net +11/19)
+
+### `submission_ens_ACD3logit121.csv` — _not submitted_
+
+*blend (no GPU)*
+
+the one weight variant allowed by 4.4; geometric A:C:D3=1:2:1 (no temp match). k=23 vs new pick 1 ACD3temp -> below the k<30 no-submit line; the two constructions converge once D3 is in. Verified: --no-temp A:C=1:2 reproduces AClogit1to2 row-for-row
+
+
+## 09-14
+
+### `submission_softkd.csv` — **0.97524**
+
+*soft-label KD*
+
+teacher = ACD3temp 0.97673 blend, T=1 soft targets (no LS on soft rows), thr 0.7 -> 11114 rows, student re-init from pretrained, 192px 16ep, best ep 6. k=172 (1.47%) vs A -> replace-A test per 5.3, not an ensemble member. conf 0.8919
+
+### `submission_ens_KDCD3temp.csv` — **0.97716**
+
+*blend (no GPU)*
+
+NEW BEST. temp-matched equal KD+C+D3 (KD substituted for A per 5.3). k=90 vs ACD3temp, delta +0.043pt, win-rate 52.8% -> TIE not signal; only vs A alone is it a signal (+0.374pt, 62.7%). Gap to LB top 0.010pt
+
+### `submission_dinov2vitl_base.csv` — **0.97363**
+
+*dinov2 vitl base*
+
+2nd new prior per 4.6 (deviation: 4.6 conditions DINOv2 on DINOv3 failing, which it did not; run under 7 orthogonality clause). 196px TTA 168/196/224, pool avg, flat 2e-5, grad ckpt, bs20. best ep 6, TTA val 0.9937. clean-reserve 0.9378 vs DINOv3 base 0.8964 = +4.14pt same-stage. disagree 2.29% vs A. GATE = 0.96150
+
+### `submission_ens_KDCD3V2temp.csv` — **0.97790**
+
+*blend (no GPU)*
+
+add DINOv2 ViT-L base as 4th member; temp-matched equal KD+C+D3+V2. V2 base clears BOTH bars as a base model (+0.02pt vs A, 2.29% disagree) - unprecedented
+
+### `submission_dinov2vitlps1.csv` — **0.97950**
+
+*dinov2 vitl pseudo1*
+
+teacher KDCD3temp 0.97716, thr 0.7 -> 11066 rows. best ep 2/16; corrected 2-clause 4.5 test = NOT a collapse (EMA fell 0.43pt vs 1.00pt threshold). HOMOGENISED: disagree vs A 2.29%->1.84%, conf 0.8765->0.8934. Fails the 2% diversity bar vs every member; V2 BASE is the better member
+
+### `submission_ens_V2PKDtemp.csv` — **0.97908**
+
+*blend (no GPU)*
+
+V2P+KD temp-matched equal. Tests whether ANY blend still helps now the anchor moved to 0.97950 -- every other member is now 0.43-0.78pt weaker, i.e. all on the too-weak side of the bracketed cutoff. KD is the least-weak at -0.43pt. Prediction: dilution
+
+### `submission_cnv2Lps1_V2Pteach.csv` — _not submitted_
+
+*cnv2L student w/ V2ps1 teacher*
+
+teacher upgrade 0.97673->0.97950 for the FCMAE lineage. Only 1.01% disagreement with the teacher (worse than B 0.99% which hurt) -> fails the diversity bar, is a lossy copy. Rendition reserve 88.86% = identical to the KD-era cnv2L and 4.15pt BELOW its teacher: distillation transfers test-set decisions, NOT cross-domain capability
+
+### `submission_dinov3vitl_base.csv` — **0.97556**
+
+*dinov3 vitl base*
+
+2nd new ViT. BEST BASE EVER (+0.193pt over DINOv2 base, +1.21pt over DINOv3 cnxL). Resolves the arch-vs-prior confound: ViT architecture = 78% of the gap, prior = 22%. Reserve INVERTED this same-stage base-vs-base call (said DINOv2 better by 0.90pt; Kaggle says DINOv3 ViT better by 0.193pt) -> reserve measures only the rendition stratum
+
+### `submission_ens_V2PV3Ttemp.csv` — **0.98089**
+
+*blend (no GPU)*
+
+FIRST OVER 0.98. temp-matched equal V2P+V3T. SIGNAL vs all three baselines (+0.139pt/61.3% vs V2P). BREAKS the disagreement-rate criterion: V3T at 1.50% disagreement HELPED where KD at 1.61% was a wash. Operative variable is STRATA COMPLEMENTARITY (V2P strong on renditions, V3T strong on photos), not raw disagreement. First local measurement ever to predict a blend gain (reserve: blend 93.78% EXCEEDS both members 93.01/92.88)
+
+### `submission_ens_V2PV3Ptemp.csv` — **0.98132**
+
+*blend (no GPU)*
+
+FINAL PICK 1. temp-matched equal V2P+V3P. TIE vs V2P+V3T (+0.043pt, 53.3%) -- highest public but statistically tied. Rendition screen predicted the tie: exceeds best member by only +0.13pt vs +0.77pt for V2P+V3T
+
+### `submission_dinov3vitlps1.csv` — _not submitted_
+
+*dinov3 vitl pseudo1*
+
+teacher V2P 0.97950. best ep 6/16, rendition reserve 0.9430 (project high). Only 0.92% disagreement with its teacher -- heavily homogenised. Used only as a blend member (pick 1), never submitted alone
+
+
+## 09-15
+
+### `submission_dinov3vitl_lpft_base.csv` — **0.97310**
+
+*dinov3 vitl base LP-FT*
+
+LP-FT (2-epoch linear probe, then identical fine-tune) vs V3T base 0.97556: -0.246pt, k=156, win-rate 40.8% -> TIE by the project rule, leaning WORSE (~-2 SD). Local metrics had pointed UP: reserve +0.65pt (p=0.27), photo holdout +0.67pt (p=0.004). Pre-registered rule -> LP-FT line CLOSED; SigLIP+LP-FT not started
+
+### `submission_siglip2vitl_base.csv` — **0.94268**
+
+*siglip2 vitl base*
+
+SigLIP 2 gap ViT-L/16, recipe identical to V3T base (flat 2e-5). FAILED the pre-registered 0.9700 gate by 2.7pt -> line CLOSED, no distillation. vs V3T base -3.29pt, k=555, win-rate 15.4% -> SIGNAL worse. Reserve predicted the direction (-3.76pt, p=3.8e-05) but the 4:1 magnitude estimate (~0.9665) was far off: ratio here ~1.1:1
+
+### `submission_websslvitl_base.csv` — **0.94236**
+
+*webssl vitl base*
+
+Web-SSL DINO ViT-L (DINOv2 recipe on MC-2B web data), recipe identical to V2 base (196px, flat 2e-5, fresh fc_norm as V2 actually had). Pre-registered gate >= 0.9700. Reserve 89.51%: vs V2 base -4.27pt (6 vs 39, p=5.4e-07), vs V3T base -3.37pt (p=3.1e-04). k=549 vs pick 1. Local profile ~identical to SigLIP (0.94268). PREDICTION before submitting: below both DINO bases, fails the gate. RESULT 0.94236: gate FAILED by 2.8pt -> line CLOSED, no distillation. vs V3T base -3.32pt, k=535, win-rate ~14% -> SIGNAL worse; vs V2 base -3.13pt, k=550 -> SIGNAL worse. Reserve direction 6-for-6
+
+
+## 09-17
+
+### `submission_eva02l_base.csv` — **0.96915**
+
+*eva02 large base*
+
+EVA-02 L (MIM on Merged-38M, IN-22k/1k fine-tuned), recipe identical to V2 base. Pre-registered gate >= 0.9700. Reserve 92.49%: vs V2 base -1.30pt (p=0.17), vs V3T base -0.39pt (p=0.77) -- not significant. k=262 vs pick 1. PREDICTION before submitting: passes the gate; no direction call vs the DINO bases. RESULT 0.96915: gate MISSED by 0.085pt -> line CLOSED by the pre-registered rule; prediction WRONG. vs V3T base -0.641pt, k=263, win-rate ~36% -> SIGNAL worse; vs V2 base -0.448pt, k=289, ~41% -> TIE
+
+### `submission_eva02lps1.csv` — **0.98132**
+
+*eva02 large pseudo1*
+
+POST-HOC override of the missed base gate (0.96915). Teacher V2P+V3P, best ep 2/16, reserve 92.88%, k=110 vs pick 1. Blend member only. SUBMITTED by the user: 0.98132 -- best single model of the project, equal to pick 1 blend; base->pseudo gain +1.22pt
+
+### `submission_ens_V2PEVAPtemp.csv` — **0.98196**
+
+*V2P + eva02 pseudo1 temp-matched equal*
+
+POST-HOC lineage (gate overridden). Blend screen PASSES: reserve 94.04% exceeds both members (+1.04pt); k=80 vs pick 1; signal over pick 1 needs >= 0.98269. PREDICTION: beats V2P alone; vs pick 1 most likely a tie. RESULT 0.98196 -- highest public score of the project
+
+### `submission_dinov3vitlps1b.csv` — **0.98164**
+
+*dinov3 vitl pseudo1, teacher V2P+EVAP*
+
+Student of the 0.98196 teacher. 0.51% disagreement with V3P (60 rows), reserve 93.26%. Blend member only. SUBMITTED by the user: 0.98164 -- best single model of the project; TIE vs both picks (k=96 vs V2PEVAP, k=60 vs V2PV3P)
+
+### `submission_ens_V2PV3P2temp.csv` — **0.98121**
+
+*V2P + V3P2 temp-matched equal*
+
+Pre-registered screen PASSES: k=75 vs best, reserve 94.30% exceeds both (+1.04). But k=31 vs pick 2 (V2P+V3P) and reserve below pick 2 (94.43). PREDICTION: within noise of pick 2; no signal vs either pick. RESULT 0.98121: vs pick 2 k=31, -0.011pt -> TIE (prediction held). Picks unchanged
+
+
+## 09-21
+
+### `submission_dinov3vithp_base.csv` — **0.97950**
+
+*dinov3 ViT-H+/16 base*
+
+CAPACITY. 840.5M params full fine-tune on a 10 GB card, made to fit by 8-bit Adam + CPU-resident EMA + 4x-coarsened EMA updates (measured 8.32 GB, 529 s/epoch). Pre-registered gate >= 0.9750; PREDICTION: clears it and beats V3T base. RESULT 0.97950 -- gate cleared by 0.45pt, both clauses held. vs V3T base (same prior, same recipe, 2.8x fewer params) +0.394pt, k=183, 60.1% -> SIGNAL better. Overturns "capacity is not the bottleneck" INSIDE the ViT+DINO family; it still did not pay in the ConvNeXt family. Reserve 95.21%, the highest of any model or blend. Two uncontrolled confounds: 8-bit optimiser, coarsened EMA
+
+### `submission_dinov3vithpps1.csv` — **0.98014**
+
+*dinov3 ViT-H+ pseudo1*
+
+Teacher V2P+EVAP (0.98196). PREDICTION: widest upside of the three candidates, by the +0.59..+1.22pt lineage pattern. RESULT +0.064pt only -- the SMALLEST distillation gain of any lineage, by 9x. PREDICTION WRONG. Foreseeable: its base was already the strongest here, so the stage had little to add and eroded it (reserve 95.21 -> 92.75, confidence 0.8580 -> 0.8097). Lineage gain is conditional on the base having headroom
+
+### `submission_ens_V2PHPtemp.csv` — **0.98143**
+
+*V2P + HP temp-matched*
+
+Blend screen PASS (reserve 94.17%, k=84). vs pick 1 -0.053pt, 46.3% -> TIE
+
+### `submission_ens_EVAPHPtemp.csv` — **0.98324**
+
+*EVAP + HP temp-matched*
+
+NEW BEST. First SIGNAL over pick 1 since it was set: k=60, +0.128pt, 62.5%. Cleared the pre-registered 0.98299 threshold written down before the submission. The blend of the SHARPEST member (EVAP 0.9013) and the BLUNTEST (HP 0.8097) after temperature matching. The erosion that made HP a poor standalone model is what made it the best partner
+
+### `submission_ens_V3P2HPtemp.csv` — **0.98271**
+
+*V3P2 + HP*
+
+Post-hoc screen, only passer of 6. k=68 vs best, -0.053pt, 45.4% -> TIE. Expectation "0-2 passes, no signal" held
+
+### `submission_ens_V3PHPbasetemp.csv` — **0.98313**
+
+*V3P + HP base*
+
+HP BASE has ZERO test-set exposure -- the only strong member in the project with none. k=84 vs best, -0.011pt, 49.2% -> TIE, a dead heat. Became pick 2 on the E[final] model (+0.049pt, the first pick difference to clear the ~0.02pt noise band)
+
+### `submission_ens_V2PHPbasetemp.csv` — **0.98217**
+
+*V2P + HP base*
+
+k=97, -0.107pt, 43.6% -> TIE. Reserve ranked it ABOVE V3P+HPbase (95.73 vs 95.34); the leaderboard reversed it by 0.096pt -- reserve failure #2 at ranking blends
+
+
+## 09-22
+
+### `submission_ens_EVAPHPbaseV2basetemp.csv` — **0.98164**
+
+*EVAP+HPbase+V2base*
+
+Reserve 95.85% -- HIGHEST EVER MEASURED -- and the second-lowest score of its group. Reserve failure #3 at ranking blends
+
+### `submission_ens_EVAPV2basetemp.csv` — **0.98057**
+
+*EVAP + V2base*
+
+Two-bar STRENGTH clause: V2 base is -0.96pt from the anchor, past the -0.42pt "too weak" boundary
+
+### `submission_ens_HPV3Tbasetemp.csv` — **0.98004**
+
+*HP + V3T base*
+
+Same cause: V3T base -0.77pt from the anchor
+
+### `submission_ens_HPV2basetemp.csv` — **0.97982**
+
+*HP + V2base*
+
+Same cause
+
+### `submission_ens_V2baseHPbasetemp.csv` — **0.97918**
+
+*V2base + HPbase*
+
+Same cause
+
+### `submission_ens_EVAPHP256temp.csv` — **0.98335**
+
+*FINAL PICK 1 -- EVAP + HP at native-grid TTA*
+
+ViT-H+ has a native 256px position grid (16x16=256 tokens) but was inferred at 192px (144 tokens). Moving its TTA scales to 192/224/256 was pre-registered and measured on BOTH held-out strata first: it lowered neither and raised the reserve significantly for HP base (6 vs 0, p=0.031). Inside the blend it moves only 7 of 11,681 rows. k=7 -> a certain TIE, and yet both files scored higher than their predecessors. My "do not submit" advice was wrong: the k<30 rule answers "can a submission resolve A vs B", but pick selection consumes the public score as a point estimate and needs no resolution
+
+### `submission_ens_V3PHPbase256temp.csv` — **0.98335**
+
+*FINAL PICK 2 -- V3P + HP base at native-grid TTA*
+
+Same change. Both picks now sit at the same public score, the shape that maximises E[gain] for a given k (81). E[final] 0.98404 over a full 16-candidate pairwise search
+
+### `submission_dinov3vitlfocal_base.csv` — **0.97385**
+
+*dinov3 ViT-L base, FOCAL LOSS gamma=2*
+
+THE SHARPEST INSTRUMENT FAILURE IN THE PROJECT. Better than its control on BOTH held-out sets -- validation photos 0.9958 vs 0.9951 (best base model here) and rendition reserve 94.04% vs 92.88% (+1.17pt) -- and WORSE on the leaderboard, -0.171pt. Mean confidence 0.6588 vs 0.85-0.90 for everything else; best epoch 13/16 when every other run peaked at 1-6. PREDICTION was 0.975-0.979: wrong, and wrong in the direction of over-rating a model that looked good locally
+
+### `submission_ens_EVAPFOCALtemp.csv` — **0.98089**
+
+*EVAP + FOCAL*
+
+Reserve 94.56%
+
+### `submission_ens_V3PFOCALtemp.csv` — **0.98046**
+
+*V3P + FOCAL*
+
+Reserve 94.56%
+
+### `submission_ens_HPFOCALtemp.csv` — **0.97929**
+
+*HP + FOCAL*
+
+Reserve 95.08%
+
+### `submission_ens_HPbaseFOCALtemp.csv` — **0.97833**
+
+*HPbase + FOCAL*
+
+Reserve 96.11% -- the HIGHEST ever measured -- and the LOWEST score of the four focal blends. Spearman(reserve, leaderboard) over the four = -0.95, a near-perfect INVERSION. Reserve failure #4; ranking blends on it is now permanently closed
+
